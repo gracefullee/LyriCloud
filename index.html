@@ -1,0 +1,135 @@
+<html>
+<head>
+	<title> LyriCloud </title>
+	<link rel="stylesheet" href="css/homePage.css">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+	<script>
+  		$(function() {
+  		  var availableTags = [ //CHANGE TO AUTOCOMPLETE ARTIST SUGGESTIONS!
+  		    "The Red Jumpsuit Apparatus",
+  		    "Taylor Swift",
+  		    "Lil Wayne",
+  		    "Eminem",
+  		    "One Direction",
+  		    "Nicki Minaj",
+  		    "Rihanna",
+  		    "Blake Shelton",
+  		    "Katy Perry",
+  		    "Jennifer Lopez",
+  		    "Britney Spears",
+  		    "The White Buffalo",
+  		    "Linkin Park",
+  		    "Michael Jackson",
+  		    "Meghan Trainor",
+  		    "Rebecca Malope",
+  		    "Bruno Mars",
+  		    "Ariana Grande",
+  		    "The Prodigy",
+  		    "AFI",
+  		    "AFROMAN",
+			"Bastille",
+  		    "Demi Lovato",
+  		    "Led Zeppelin",
+  		    "Linkin Park",
+  		    "Pink Floyd",
+  		    "Celine Dion",
+  		    "Whitney Houston",
+  		    "Aerosmith",
+  		    "The Who",
+  		    "Lady Gaga",
+  		    "Nirvana",
+  		    "Depeche Mode",
+  		    "Adele",
+			"Gotye",
+  		    "Pharrell Williams",
+  		    "Flo Rida",
+  		    "Iggy Azalea",
+  		    "Shakira",
+			"Miley Cyrus",
+  		    "LMFAO",
+			"Lorde",
+  		    "Coldplay",
+			"Florida Georgia Line",
+  		    "Jay Sean",
+  		    "Daft Punk",
+  		    "Imagine Dragons",
+  		    "Drake",
+  		    "Ed Sheeran",
+  		    "Maroon 5",
+  		    "Sam Smith",
+  		    "Ellie Goulding",
+  		    "Hozier",
+  		    "The Weeknd",
+  		    "Fall Out Boy",
+  		    "Sara Bareilles",
+  		    "Usher",
+  		    "The Rolling Stones",
+  		    "Weezer",
+  		    "The Black Keys",
+  		    "Lil Wayne",
+  		    "Alan Jackson"
+  		  ];
+  		  $( "#inputBox" ).autocomplete({
+  		    source: availableTags
+  		  });
+  		});
+  	</script>
+</head>
+
+<body>
+	<header>
+		<div id="header">LyricFloat</div>
+	</header>
+	<div id="cloudPane">
+		<div id="cloudBox"></div>
+	</div>	
+	<div id ="inputPane">
+		<input id="inputBox" type="text" name="text" placeholder="Input Text Here">
+		<div id="buttons">
+			<button id="addMoreButton">Add More To Cloud</button>
+			<a href="http://www.facebook.com/sharer.php?u=LyricFloat.com" id="shareButton" target="_blank"><img src="img/fb.png" alt="Facebook" /></a>
+			<button id="submitButton">Submit</button>
+		</div>
+	</div>
+</body>
+</html>
+
+<script>
+	$("#submitButton").click(function(){
+		$.ajax({
+				beforeSend: function() {
+					$('#cloudBox').html("<div id=\"generating\">Generating Cloud...</div>");
+				},
+				type: "post",
+				url: "getCloud.php",
+				data: {
+					prev: '',
+					name: $('#inputBox').val()
+				},
+				success: function(msg){
+					$('#cloudBox').html(msg);
+					$('#addMoreButton').css("visibility", "visible");
+					$('#shareButton img').css("visibility", "visible");
+				}
+		});
+	});
+	
+	$("#addMoreButton").click(function(){
+		$.ajax({
+				beforeSend: function() {
+					$('#cloudBox').html("<div id=\"generating\">Generating Cloud...</div>");
+				},
+				type: "post",
+				url: "getCloud.php",
+				data: {
+					prev: $('#prevText').text(),
+					name: $('#inputBox').val()
+				},
+				success: function(msg){
+					$('#cloudBox').html(msg);
+				}
+		});
+	});
+</script>
